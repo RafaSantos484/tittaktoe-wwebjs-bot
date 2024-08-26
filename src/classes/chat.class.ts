@@ -88,13 +88,13 @@ export default class Chat {
     return "";
   }
 
-  public endGame(from: string, result: "X" | "O" | "draw") {
+  public async endGame(from: string, result: "X" | "O" | "draw") {
     if (result === "X") {
-      this.client.sendMessage(from, "Você venceu!");
+      await this.client.sendMessage(from, "Você venceu!");
     } else if (result === "O") {
-      this.client.sendMessage(from, "Eu venci!");
+      await this.client.sendMessage(from, "Eu venci!");
     } else {
-      this.client.sendMessage(from, "Empate!");
+      await this.client.sendMessage(from, "Empate!");
     }
   }
 
@@ -128,11 +128,11 @@ export default class Chat {
 
       if (this.board[line - 1][column - 1] === "") {
         this.board[line - 1][column - 1] = "X";
-        this.sendBoard(from);
+        await this.sendBoard(from);
 
         let result: "" | "X" | "O" | "draw" = this.getResult();
         if (result !== "") {
-          this.endGame(from, result);
+          await this.endGame(from, result);
           return true;
         }
 
@@ -148,11 +148,11 @@ export default class Chat {
           ];
         }
         this.board[randomPosition[0]][randomPosition[1]] = "O";
-        this.sendBoard(from);
+        await this.sendBoard(from);
 
         result = this.getResult();
         if (result !== "") {
-          this.endGame(from, result);
+          await this.endGame(from, result);
           return true;
         }
 
